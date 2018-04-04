@@ -17,9 +17,7 @@ package com.madonasyombua.growwithgoogleteamproject.ui.fragment;
 
 import android.net.Uri;
 import android.support.v4.app.Fragment;
-
-
-
+//we might delete this letter
 public class HelpFragment extends Fragment {
 
      /*OnFragmentInteractionListener mListener;
