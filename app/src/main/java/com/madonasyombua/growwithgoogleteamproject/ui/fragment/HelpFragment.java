@@ -23,7 +23,7 @@ public class HelpFragment extends Fragment {
      /*OnFragmentInteractionListener mListener;
 
     public HelpFragment() {
-        // Required empty public constructor
+
     }
 
     @Override
