@@ -147,9 +147,6 @@ public class FeedsFragment extends Fragment{
 
         displayEmpty.setVisibility(View.GONE);
         mRecyclerView.setHasFixedSize(true);
-
-
-        // use a linear layout manager
         mLayoutManager = new LinearLayoutManager(getContext());
         mRecyclerView.setLayoutManager(mLayoutManager);
 
