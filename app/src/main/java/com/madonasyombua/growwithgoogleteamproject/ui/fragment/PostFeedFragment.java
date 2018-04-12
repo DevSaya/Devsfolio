@@ -50,6 +50,7 @@ import com.madonasyombua.growwithgoogleteamproject.R;
 import com.madonasyombua.growwithgoogleteamproject.models.Post;
 import com.madonasyombua.growwithgoogleteamproject.util.BitmapHandler;
 
+
 import butterknife.BindString;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -63,7 +64,7 @@ public class PostFeedFragment extends DialogFragment {
     public static int RESULT_CAMERA = 2;
 
     private OnFragmentInteractionListener mListener;
-    private static final String TAG = "AddFeeds";
+    private static final String TAG = PostFeedFragment.class.getName();
     @BindView(R.id.post)
     EditText postText;
     @BindView(R.id.header)
@@ -181,7 +182,7 @@ public class PostFeedFragment extends DialogFragment {
                     public void onClick(View v) {
                         Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
                         //fileUri = Uri.fromFile(new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM) +
-                         //File.separator + "_tmp.jpg"));
+                       //  File.separator + ""));
                         cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, fileUri);
                         startActivityForResult(cameraIntent, RESULT_CAMERA);
                     }
@@ -193,6 +194,8 @@ public class PostFeedFragment extends DialogFragment {
             @Override
             public void onClick(View v) {
                 uploadImageToServer();
+
+
             }
         });
 
@@ -349,7 +352,8 @@ public class PostFeedFragment extends DialogFragment {
             });
             postText.setText("");
             Toast.makeText(getContext(), "Sending Feeds", Toast.LENGTH_SHORT).show();
-        }
+
+    }
 
     @Override
     public void onResume() {
@@ -358,7 +362,7 @@ public class PostFeedFragment extends DialogFragment {
         // Assign window properties to fill the parent
         params.width = WindowManager.LayoutParams.MATCH_PARENT;
         params.height = WindowManager.LayoutParams.MATCH_PARENT;
-        getDialog().getWindow().setAttributes((android.view.WindowManager.LayoutParams) params);
+        getDialog().getWindow().setAttributes((WindowManager.LayoutParams) params);
         // Call super onResume after sizing
         super.onResume();
     }

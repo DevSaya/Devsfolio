@@ -62,8 +62,8 @@ public class LoginActivity extends AppCompatActivity implements AppLoginManager.
     private static final String EMAIL_PERMISSION = "email";
 
     private ActivityLoginBinding binding;
-    private static final String TAG = "LoginActivity";
-    static final int SHOW_INTRO = 1;
+    private static final String TAG = LoginActivity.class.getName();
+    private static final int SHOW_INTRO = 1;
 
     GoogleSignInClient mGoogleSignInClient;
     private static final int GOOGLE_SIGN_IN_REQUEST_CODE = 500;
@@ -193,11 +193,11 @@ public class LoginActivity extends AppCompatActivity implements AppLoginManager.
         adapter.addFragment(new RegisterFragment());
         binding.container.setAdapter(adapter);
     }
-    private void loginFragment(){
+    /*private void loginFragment(){
         FragmentsAdapter adapter = new FragmentsAdapter(getSupportFragmentManager());
         adapter.addFragment(new LoginFragment());
         binding.container.setAdapter(adapter);
-    }
+    }*/
 
     public void showHideProgressBar(boolean show){
         if(show){

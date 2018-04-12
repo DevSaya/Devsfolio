@@ -32,11 +32,11 @@ import java.util.ArrayList;
 import butterknife.BindString;
 import butterknife.ButterKnife;
 
-public class AddFeeds extends AppCompatActivity implements PostFeedFragment.OnFragmentInteractionListener {
+public class PostActivity extends AppCompatActivity
+        implements PostFeedFragment.OnFragmentInteractionListener {
 
-    private static final String TAG = "AddFeeds";
+    private static final String TAG = PostActivity.class.getName();
     private RecyclerView mRecyclerView;
-    private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
     private SwipeRefreshLayout mSwipeRefreshLayout;
     private Post receivedPost;
@@ -49,7 +49,7 @@ public class AddFeeds extends AppCompatActivity implements PostFeedFragment.OnFr
     @BindString(R.string.yes) String stringYes;
     @BindString(R.string.cancel)String stringCancel;
     @BindString(R.string.deleted_comment)String stringDeletedComment;
-    @BindString(R.string.deleted_comment)String stringDeleteComment;
+    @BindString(R.string.delete_comment)String stringDeleteComment;
     @BindString(R.string.sent_comment)String stringSentComment;
 
     @Override
@@ -101,16 +101,22 @@ public class AddFeeds extends AppCompatActivity implements PostFeedFragment.OnFr
     }
 
     /**
-     * Sends an update request to the server and populates the post feed.
+     * update post
      */
     public void updatePost() {
 
+        //update post
 
     }
+
+    /**
+     *
+     * @param uri
+     */
     @Override
     public void onFragmentInteraction(Uri uri) {
-
-    }
+        //uri
+        }
 
     @Override
     public void onDialogSubmit() {

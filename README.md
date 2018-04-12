@@ -1,4 +1,9 @@
-# Grow With Google Team Project 
+<h1 align="center">Dev's Portfolio </h1>
+
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/d9894982e1c9417baca62ffe04434bf5)](https://www.codacy.com/app/syombuamadona/Devs-Portfolio-App?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=Madonahs/Devs-Portfolio-App&amp;utm_campaign=Badge_Grade) </a>
+ <a target="_blank" href="LICENSE"><img src="http://img.shields.io/:license-apache-blue.svg" alt="License" /></a>
+ 
+</p>
 Grow With Google Scholarship Team Project.
 
 ## Dev's Portfolio App
@@ -69,7 +74,7 @@ Currently, we have 2 json config files, *credentials.json* and *google-services.
 These files are required in order for google sign in features to work.
 
 1. Download **credentials.json** and **google-services.json** from our *GrowWithGoogleTeam* slack team.
-(if you would like to be invited, send your email to syombuamadona@gmail.com)
+(if you would like to be invited, send your email to madonahsyombua@gmail.com)
 
 2. Copy the downloaded files above into the **app** folder of your project.
 
@@ -102,6 +107,4 @@ These files are required in order for google sign in features to work.
 
 ### Profile
 <img src="https://user-images.githubusercontent.com/11560987/37727647-66431f24-2d06-11e8-92e8-981c31e4fdc6.jpg" width="200" height="400" />
-
-
 

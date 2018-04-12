@@ -60,7 +60,7 @@ public class MainActivity
         PostFeedFragment.OnFragmentInteractionListener {
 
     private Fragment fragment;
-    private static final String TAG = "current-frag";
+    private static final String TAG = MainActivity.class.getName();
     @BindView(R.id.toolbar)Toolbar toolbar;
     @BindView(R.id.drawer_container)DrawerLayout drawerLayout;
     @BindView(R.id.nav_view)NavigationView navView;
@@ -310,8 +310,16 @@ public class MainActivity
 
     }
 
+    /**
+     *
+     * @param parent
+     * @param view
+     * @param position
+     * @param id
+     */
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        //parent, view, position , id
 
     }
 

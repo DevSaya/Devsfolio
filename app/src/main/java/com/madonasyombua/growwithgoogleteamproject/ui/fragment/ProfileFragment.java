@@ -61,11 +61,8 @@ public class ProfileFragment extends Fragment
     private User user;
     private int id;
 
-    private static final String TAG = "update-profile-fragment";
+    private static final String TAG = ProfileFragment.class.getName();
 
-    public ProfileFragment() {
-        // Required empty public constructor
-    }
 
 
     @Override

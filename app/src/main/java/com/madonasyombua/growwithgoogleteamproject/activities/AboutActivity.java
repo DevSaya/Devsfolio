@@ -20,20 +20,20 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
 import com.madonasyombua.growwithgoogleteamproject.R;
-import butterknife.BindView;
 import butterknife.ButterKnife;
 
 
 public class AboutActivity extends AppCompatActivity {
 
 
-    @BindView(R.id.backToNavDrawer)ImageButton imageButton;
+    private ImageButton imageButton;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_about);
         ButterKnife.bind(this);
 
+        imageButton = findViewById(R.id.backToNavDrawer);
         imageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

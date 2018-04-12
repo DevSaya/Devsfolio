@@ -14,19 +14,15 @@
  */
 package com.madonasyombua.growwithgoogleteamproject.ui.fragment;
 
-import android.content.Context;
+
 import android.net.Uri;
-import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import com.madonasyombua.growwithgoogleteamproject.R;
+
 
 
 public class HelpFragment extends Fragment {
 
-    private OnFragmentInteractionListener mListener;
+     /*OnFragmentInteractionListener mListener;
 
     public HelpFragment() {
         // Required empty public constructor
@@ -46,10 +42,7 @@ public class HelpFragment extends Fragment {
     }
 
 
-    public void onButtonPressed(Uri uri) {
-
-
-    }
+    public void onButtonPressed(Uri uri) { }
 
     @Override
     public void onAttach(Context context) {
