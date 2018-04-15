@@ -78,6 +78,9 @@
             android:theme="@style/AppTheme" />
         <activity android:name=".activities.ManageProfileActivity" />
         <activity android:name=".activities.MessageActivity"></activity>
+
+        <service android:name=".service.UploadTaskService"
+            android:exported="false"/>
     </application>
 
 </manifest>

@@ -34,7 +34,7 @@ public class AppLoginManager {
     private static FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
     private static FirebaseUser mCurrentUser;
 
-    public static FirebaseUser registerUser(final Activity activity, User user){
+    public static FirebaseUser registerUser(final Activity activity, final User user){
         firebaseAuth.createUserWithEmailAndPassword(user.getEmail(), user.getPassword())
                 .addOnCompleteListener(activity, new OnCompleteListener<AuthResult>() {
                     @Override

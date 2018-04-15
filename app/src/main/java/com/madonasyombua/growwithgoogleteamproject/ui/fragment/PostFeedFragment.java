@@ -15,7 +15,6 @@
 package com.madonasyombua.growwithgoogleteamproject.ui.fragment;
 
 
-
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
@@ -29,6 +28,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.transition.TransitionManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -40,6 +40,7 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -48,12 +49,15 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.madonasyombua.growwithgoogleteamproject.R;
 import com.madonasyombua.growwithgoogleteamproject.models.Post;
+import com.madonasyombua.growwithgoogleteamproject.service.UploadTaskService;
 import com.madonasyombua.growwithgoogleteamproject.util.BitmapHandler;
 
 
 import butterknife.BindString;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+
+import static android.app.Activity.RESULT_OK;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -93,7 +97,7 @@ public class PostFeedFragment extends DialogFragment {
     @BindString(R.string.something_went_wrong)String stringSomethingWentWrong;
     private View view;
     private ProgressBar progressBar;
-    private Uri fileUri;
+    private Uri selectedImage;
     private Bitmap imageToUpload;
     private BitmapHandler bitmapHandler;
 
@@ -102,7 +106,7 @@ public class PostFeedFragment extends DialogFragment {
     private FirebaseStorage storage;
     private FirebaseAuth mAuth;
     private StorageReference storageReference;
-
+    private Uri cameraUri;
 
     public PostFeedFragment() {
         // Empty constructor required for DialogFragment
@@ -136,8 +140,7 @@ public class PostFeedFragment extends DialogFragment {
         database = FirebaseDatabase.getInstance();
         reference = database.getReference().child("feeds");
         storage = FirebaseStorage.getInstance();
-        storageReference = storage.getReference().child("feeds_photos");
-
+//        storageReference = storage.getReference().child("feeds_photos").child();
 
         /*bitmapHandler = new BitmapHandler(new BitmapHandler.OnPostExecuteListener() {
             @Override
@@ -181,9 +184,7 @@ public class PostFeedFragment extends DialogFragment {
                     @Override
                     public void onClick(View v) {
                         Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
-                        //fileUri = Uri.fromFile(new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM) +
-                       //  File.separator + ""));
-                        cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, fileUri);
+                        cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, cameraUri);
                         startActivityForResult(cameraIntent, RESULT_CAMERA);
                     }
                 }
@@ -193,9 +194,7 @@ public class PostFeedFragment extends DialogFragment {
         sendButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                uploadImageToServer();
-
-
+            uploadToServer();
             }
         });
 
@@ -237,7 +236,7 @@ public class PostFeedFragment extends DialogFragment {
         super.onActivityResult(requestCode, resultCode, data);
         try {
             System.out.println("resultCode: " + resultCode);
-            if (resultCode == getActivity().RESULT_OK && data != null) {
+            if (resultCode == RESULT_OK && data != null) {
 
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                     TransitionManager.endTransitions(attachment);
@@ -250,7 +249,12 @@ public class PostFeedFragment extends DialogFragment {
                 if (requestCode == RESULT_LOAD_IMAGE) {
                     // Get the Image from data
 
-                    Uri selectedImage = data.getData();
+                    selectedImage = data.getData();
+
+                    if (selectedImage != null){
+                        uploadToFirebase(selectedImage);
+                    }
+
                     String[] filePathColumn = {MediaStore.Images.Media.DATA};
 
                     // Get the cursor
@@ -263,10 +267,11 @@ public class PostFeedFragment extends DialogFragment {
                     String imgDecodableString = cursor.getString(columnIndex);
                     cursor.close();
 
+
                     // Set the Image in ImageView after decoding the String
-                    imageToUpload = BitmapFactory.decodeFile(imgDecodableString);
-                    Bitmap thumbnail = bitmapHandler.getThumbnail(imageToUpload);
-                    attachedImage.setImageBitmap(thumbnail);
+//                    imageToUpload = BitmapFactory.decodeFile(imgDecodableString);
+//                    Bitmap thumbnail = bitmapHandler.getThumbnail(imageToUpload);
+//                    attachedImage.setImageBitmap(thumbnail);
 
                     String fileName;
                     if (imgDecodableString.contains("/")) {
@@ -277,17 +282,31 @@ public class PostFeedFragment extends DialogFragment {
                     }
                     attachedImageName.setText(fileName);
                 } else if (requestCode == RESULT_CAMERA) {
-                    imageToUpload = BitmapFactory.decodeFile(fileUri.getPath());
+                    imageToUpload = BitmapFactory.decodeFile(cameraUri.getPath());
                     Bitmap thumbnail = bitmapHandler.getThumbnail(imageToUpload);
                     attachedImage.setImageBitmap(thumbnail);
                     attachedImageName.setText(stringCameraImage);
                 }
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            Log.e(TAG, "onActivityResult: " + e.toString());
             Snackbar.make(view, stringSomethingWentWrong, Snackbar.LENGTH_LONG).show();
             attachment.setVisibility(View.INVISIBLE);
         }
+    }
+
+    /***This function uploads images to Firebase in the background
+     * I found some flaw in this plan but i'll fix it later on
+     * @param fileUri
+     */
+    private void uploadToFirebase(Uri fileUri) {
+        Log.d(TAG, "uploadToFirebase: " + fileUri.toString());
+
+        selectedImage = fileUri;
+
+        getActivity().startService(new Intent(getContext(), UploadTaskService.class)
+        .putExtra(UploadTaskService.EXTRA_FILE_URI, fileUri)
+        .setAction(UploadTaskService.ACTION_UPLOAD));
     }
 
 
@@ -329,9 +348,8 @@ public class PostFeedFragment extends DialogFragment {
         void onDialogSubmit(final PostFeedFragment dialog, final String text, final String fileName);
     }
 
-    public void uploadImageToServer() {
-
-       //TODO 1: Enable sending images to DataBase
+    public void uploadToServer() {
+        // TODO 4: In the database, change the image location to the location in firebase storage
         //TODO 2: ensure we get the following
         /**
          * Post post = new post();
@@ -339,7 +357,7 @@ public class PostFeedFragment extends DialogFragment {
          * post.setSomethingElse(whatever);
          * Use the setters to populate the post.
          */
-        Post post = new Post(postText.getText().toString(), "Madonahs", null);
+        Post post = new Post(postText.getText().toString(), "Ayo", selectedImage.getPath());
             reference.push().setValue(post, new DatabaseReference.CompletionListener() {
                 @Override
                 public void onComplete(DatabaseError databaseError, DatabaseReference dataReference) {
@@ -354,6 +372,7 @@ public class PostFeedFragment extends DialogFragment {
             Toast.makeText(getContext(), "Sending Feeds", Toast.LENGTH_SHORT).show();
 
     }
+
 
     @Override
     public void onResume() {
