@@ -59,6 +59,9 @@ public class MainActivity
         SharedPreferences.OnSharedPreferenceChangeListener,
         PostFeedFragment.OnFragmentInteractionListener {
 
+
+
+
     private Fragment fragment;
     private static final String TAG = MainActivity.class.getName();
     @BindView(R.id.toolbar)Toolbar toolbar;

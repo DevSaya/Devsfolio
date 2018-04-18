@@ -299,6 +299,9 @@ public class PostFeedFragment extends DialogFragment {
      * I found some flaw in this plan but i'll fix it later on
      * @param fileUri
      */
+
+    //FIXME 4: 18 :2018 : Hey ayo why do we have a seperate method here? I thought this should be
+    // FIXME : combined with the bellow method? uploadToServer? Please look at he method
     private void uploadToFirebase(Uri fileUri) {
         Log.d(TAG, "uploadToFirebase: " + fileUri.toString());
 
