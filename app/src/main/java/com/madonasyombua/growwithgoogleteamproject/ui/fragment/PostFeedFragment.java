@@ -355,7 +355,11 @@ public class PostFeedFragment extends DialogFragment {
         // TODO 4: In the database, change the image location to the location in firebase storage
         //TODO 2: ensure we get the following
 
+
         Post post = new Post(postText.getText().toString(), "Ayo", selectedImage.getPath());
+
+        //Post post = new Post(postText.getText().toString(), "person", null);
+
             reference.push().setValue(post, new DatabaseReference.CompletionListener() {
                 @Override
                 public void onComplete(DatabaseError databaseError, DatabaseReference dataReference) {
