@@ -238,13 +238,6 @@ public class PostFeedFragment extends DialogFragment {
             System.out.println("resultCode: " + resultCode);
             if (resultCode == RESULT_OK && data != null) {
 
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                    TransitionManager.endTransitions(attachment);
-                }
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-                    TransitionManager.beginDelayedTransition(attachment);
-                }
-
                 attachment.setVisibility(View.VISIBLE);
                 if (requestCode == RESULT_LOAD_IMAGE) {
                     // Get the Image from data
@@ -267,11 +260,6 @@ public class PostFeedFragment extends DialogFragment {
                     String imgDecodableString = cursor.getString(columnIndex);
                     cursor.close();
 
-
-                    // Set the Image in ImageView after decoding the String
-//                    imageToUpload = BitmapFactory.decodeFile(imgDecodableString);
-//                    Bitmap thumbnail = bitmapHandler.getThumbnail(imageToUpload);
-//                    attachedImage.setImageBitmap(thumbnail);
 
                     String fileName;
                     if (imgDecodableString.contains("/")) {
@@ -299,9 +287,6 @@ public class PostFeedFragment extends DialogFragment {
      * I found some flaw in this plan but i'll fix it later on
      * @param fileUri
      */
-
-    //FIXME 4: 18 :2018 : Hey ayo why do we have a seperate method here? I thought this should be
-    // FIXME : combined with the bellow method? uploadToServer? Please look at he method
     private void uploadToFirebase(Uri fileUri) {
         Log.d(TAG, "uploadToFirebase: " + fileUri.toString());
 
@@ -352,11 +337,8 @@ public class PostFeedFragment extends DialogFragment {
     }
 
     public void uploadToServer() {
-        // TODO 4: In the database, change the image location to the location in firebase storage
-        //TODO 2: ensure we get the following
 
-
-        Post post = new Post(postText.getText().toString(), "Ayo", selectedImage.getPath());
+        Post post = new Post(postText.getText().toString(), "person", selectedImage.getPath());
 
         //Post post = new Post(postText.getText().toString(), "person", null);
 
